@@ -1,56 +1,108 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Хомяк Пугалка</title>
+    <title>My Simple Website</title>
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-            text-align: center;
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
         }
-        img {
-            max-width: 300px;
-            border-radius: 10px;
-            display: none; /* Изначально скрыто */
+        header {
+            background: #35424a;
+            color: #ffffff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav {
+            margin: 20px;
+        }
+        nav a {
+            margin: 0 15px;
+            color: #35424a;
+            text-decoration: none;
+        }
+        section {
+            padding: 20px;
+            margin: 20px;
+            background: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background: #35424a;
+            color: #ffffff;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+        #contact-form input, #contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
-    <div>
-        <h1>Нажми кнопку, если сможешь!</h1>
-        <button id="scareButton">Пугай меня!</button>
-        <img id="hamster" src="https://steamuserimages-a.akamaihd.net/ugc/2046356675955355460/C41FCED78CBBBDB3F10739523313C8D679C6471C/?imw=512&amp;imh=288&amp;ima=fit&amp;impolicy=Letterbox&amp;imcolor=%23000000&amp;letterbox=true" alt="Пугающий хомяк">
-        <audio id="timerSound" src="https://samplefocus.com/samples/clock-ticking-sound" preload="auto"></audio>
-        <audio id="screamSound" src="https://voicebot.su/ru/sound/33649-zvuk-546gtu7h/" preload="auto"></audio>
-    </div>
-    <script>
-        const scareButton = document.getElementById('scareButton');
-        const hamster = document.getElementById('hamster');
-        const timerSound = document.getElementById('timerSound');
-        const screamSound = document.getElementById('screamSound');
 
-        scareButton.addEventListener('click', () => {
-            // Остановим звук таймера и начнем звук скримера
-            timerSound.pause();
-            timerSound.currentTime = 0; // Сбросить время таймера
-            screamSound.play();
+<header>
+    <h1>Welcome to My Simple Website</h1>
+</header>
 
-            // Показываем хомяка через 0.5 секунды (чтобы создать эффект неожиданности)
-            setTimeout(() => {
-                hamster.style.display = 'block';
-            }, 500);
+<nav>
+    <a href="#about">About</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#audio">Audio</a>
+    <a href="#contact">Contact</a>
+</nav>
 
-            // Скрываем хомяка через 1.5 секунды после его появления
-            setTimeout(() => {
-                hamster.style.display = 'none';
-            }, 2000); // Время, сколько показывать хомяка
-        });
-    </script>
+<section id="about">
+    <h2>About</h2>
+    <p>This is a simple website to demonstrate multiple functions and features.</p>
+</section>
+
+<section id="gallery">
+    <h2>Gallery</h2>
+    <img src="https://via.placeholder.com/300" alt="Placeholder Image" style="width: 100%; max-width: 300px;"/>
+    <p>Sample image displayed above.</p>
+</section>
+
+<section id="audio">
+    <h2>Audio</h2>
+    <audio controls>
+        <source src="https://www.soundjay.com/button/sounds/button-3.mp3" type="audio/mpeg">
+        Your browser does not support the audio tag.
+    </audio>
+</section>
+
+<section id="contact">
+    <h2>Contact Us</h2>
+    <form id="contact-form">
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <textarea placeholder="Your Message" rows="5" required></textarea>
+        <button type="submit">Send Message</button>
+    </form>
+</section>
+
+<footer>
+    <p>&copy; 2024 My Simple Website</p>
+</footer>
+
+<script>
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        alert('Thank you for your message!');
+    });
+</script>
+
 </body>
 </html>
+
