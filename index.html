@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Чат Бот</title>
+    <style>
+        body {
+            background: url('https://www.transparenttextures.com/patterns/light-sand.png');
+            font-family: Arial, sans-serif;
+        }
+        #chat-box {
+            height: 400px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+        }
+        .message {
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .user-message {
+            background-color: #007bff;
+            color: white;
+            text-align: right;
+        }
+        .bot-message {
+            background-color: #e2e2e2;
+            text-align: left;
+        }
+        button {
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-4">Чат Бот</h1>
+        <div id="chat-box"></div>
+        <input type="text" id="user-input" class="form-control" placeholder="Введите сообщение...">
+        <button id="send-btn" class="btn btn-primary mt-2">Отправить</button>
+        <button id="theme-btn" class="btn btn-secondary mt-2">Сменить тему</button>
+        <button id="clear-btn" class="btn btn-danger mt-2">Очистить чат</button>
+        <button id="joke-btn" class="btn btn-info mt-2">Расскажи шутку</button>
+        <button id="commands-btn" class="btn btn-warning mt-2">Список команд</button>
+        <button id="download-btn" class="btn btn-success mt-2">Скачать историю</button>
+        <button id="weather-btn" class="btn btn-light mt-2">Погода</button>
+    </div>
+    <script>
+        const chatBox = document.getElementById('chat-box');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const themeBtn = document.getElementById('theme-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const jokeBtn = document.getElementById('joke-btn');
+        const commandsBtn = document.getElementById('commands-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        const weatherBtn = document.getElementById('weather-btn');
+        let isDarkTheme = false;
+        let chatHistory = [];
+
+        function getBotResponse(input) {
+            if (input.includes("привет")) return "Привет! Как дела?";
+            if (input.includes("как дела")) return "У меня всё хорошо, спасибо!";
+            if (input.includes("что ты можешь")) return "Я могу помочь с разными вопросами!";
+            if (input.includes("шутка")) return "Почему программисты не любят природу? Потому что там слишком много багов!";
+            if (input.includes("факт")) return "Знаешь ли ты, что кошки могут спать до 16 часов в день?";
+            if (input.includes("погода")) return "В ближайшие дни ожидается ясная погода!"; // Псевдореакция на команду
+            return "Не знаю, что на это сказать.";
+        }
+
+        function addMessage(sender, message) {
+            const timeStamp = new Date().toLocaleTimeString();
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender === "Вы" ? "user-message" : "bot-message"}`;
+            messageDiv.innerHTML = `<strong>${sender}</strong>: ${message} <em>${timeStamp}</em>`;
+            chatBox.appendChild(messageDiv);
+            chatHistory.push(`${sender}: ${message} (${timeStamp})`);
+            chatBox.scrollTop = chatBox.scrollHeight; // Прокрутка вниз
+        }
+
+        sendBtn.onclick = function() {
+            const input = userInput.value;
+            if (input) {
+                addMessage("Вы", input);
+                const response = getBotResponse(input);
+                addMessage("Бот", response);
+                userInput.value = ''; // Очищаем поле
+            }
+        };
+
+        userInput.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                sendBtn.click(); // Отправка при нажатии Enter
+            }
+        });
+
+        themeBtn.onclick = function() {
+            isDarkTheme = !isDarkTheme;
+            document.body.style.backgroundColor = isDarkTheme ? '#333' : '#fff';
+            document.body.style.color = isDarkTheme ? '#fff' : '#000';
+            chatBox.style.borderColor = isDarkTheme ? '#444' : '#ccc';
+        };
+
+        clearBtn.onclick = function() {
+            chatBox.innerHTML = ''; // Очищаем чат
+            chatHistory = []; // Очищаем историю
+        };
+
+        jokeBtn.onclick = function() {
+            addMessage("Бот", "Почему программисты не любят природу? Потому что там слишком много багов!");
+        };
+
+        commandsBtn.onclick = function() {
+            alert("Доступные команды:
+- привет
+- как дела
+- что ты можешь
+- шутка
+- факт
+- погода");
+        };
+
+        downloadBtn.onclick = function() {
+            const blob = new Blob([chatHistory.join('\n')], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'chat_history.txt';
+            link.click();
+        };
+
+        weatherBtn.onclick = function() {
+            addMessage("Бот", "В ближайшие дни ожидается ясная погода!"); // Здесь можно добавить интеграцию с реальным API
+        };
+    </script>
+</body>
+</html>
